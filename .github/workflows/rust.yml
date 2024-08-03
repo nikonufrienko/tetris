@@ -38,14 +38,14 @@ jobs:
         path: target/x86_64-unknown-linux-gnu/release/tetris
 
     - name: Get short commit hash
-      run: echo "::set-output name=commit_hash::$(git rev-parse --short HEAD)"
+      run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
     
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       with:
-        tag_name: commit-${{ steps.get_commit.outputs.commit_hash }}
-        release_name: Release commit-${{ steps.get_commit.outputs.commit_hash }}
+        tag_name: commit-${{ env.COMMIT_HASH }}
+        release_name: Release commit-${{ env.COMMIT_HASH }}
         draft: false
         prerelease: false
         generate_release_notes: false

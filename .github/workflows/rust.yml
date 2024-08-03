@@ -68,5 +68,5 @@ jobs:
         asset_path: target/x86_64-unknown-linux-gnu/release/tetris
         asset_name: tetris
         asset_content_type: application/octet-stream
-     env:
+      env:
         GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}

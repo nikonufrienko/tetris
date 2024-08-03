@@ -84,7 +84,8 @@ impl TetrisField {
             self.stdout,
             Clear(ClearType::All),
             cursor::MoveTo(0, 0),
-            cursor::Hide
+            cursor::Hide,
+            crossterm::style::SetForegroundColor(crossterm::style::Color::White)
         )
         .unwrap();
         for _ in 0..FIELD_CHAR_WIDTH {
@@ -388,6 +389,7 @@ impl TetrisField {
             self.stdout,
             cursor::MoveTo(0, FIELD_HEIGHT as u16 + 10),
             crossterm::style::SetBackgroundColor(crossterm::style::Color::Reset),
+            crossterm::style::SetForegroundColor(crossterm::style::Color::Reset),
             cursor::Show
         )
         .unwrap();

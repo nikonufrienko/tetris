@@ -229,9 +229,17 @@ impl TetrisField {
             Print(" "),
             cursor::MoveTo(center_x + GAME_OVER_STR.len() as u16, center_y),
             Print(" "),
-            crossterm::style::SetBackgroundColor(crossterm::style::Color::Reset)
+            crossterm::style::SetBackgroundColor(crossterm::style::Color::Reset),
+            cursor::MoveTo(0, FIELD_HEIGHT as u16 + 10)
         )
         .unwrap();
+        println!("Press any key to continue...");
+        loop {
+            match crossterm::event::read().unwrap() {
+                crossterm::event::Event::Key { .. } => break,
+                _ => continue,
+            }
+        }
     }
 
     // Injecting tetramino in game field and return collision resut

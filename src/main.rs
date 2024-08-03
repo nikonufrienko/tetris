@@ -23,7 +23,6 @@ const STEP_PERIOD: u32 = 500; // Period
 const GAME_OVER_STR: &str = "GAME OVER";
 
 #[derive(Copy, Clone, PartialEq)]
-
 enum TetrisCell {
     EMPTY,
     BRICK(u8, u8, u8),
@@ -109,36 +108,15 @@ impl TetrisField {
         execute!(
             self.stdout,
             cursor::MoveTo(0, (FIELD_HEIGHT + 2u8) as u16),
-            Print("<right arrow> -- move to the right")
-        )
-        .unwrap();
-        execute!(
-            self.stdout,
+            Print("<right arrow> -- move to the right"),
             cursor::MoveTo(0, (FIELD_HEIGHT + 3u8) as u16),
-            Print("<left arrow> -- move to the left")
-        )
-        .unwrap();
-        execute!(
-            self.stdout,
+            Print("<left arrow>  -- move to the left"),
             cursor::MoveTo(0, (FIELD_HEIGHT + 4u8) as u16),
-            Print("<up arrow> -- rotate")
-        )
-        .unwrap();
-
-        execute!(
-            self.stdout,
+            Print("<up arrow>    -- rotate"),
             cursor::MoveTo(0, (FIELD_HEIGHT + 5u8) as u16),
-            Print("<down arrow> -- drop")
-        )
-        .unwrap();
-        execute!(
-            self.stdout,
+            Print("<down arrow>  -- drop"),
             cursor::MoveTo(0, (FIELD_HEIGHT + 6u8) as u16),
-            Print("ctrl+q -- exit")
-        )
-        .unwrap();
-        execute!(
-            self.stdout,
+            Print("ctrl+q        -- exit"),
             cursor::MoveTo(((FIELD_WIDTH * BRICK_CELL.len() as u8) + 4) as u16, 1),
             Print("Score:")
         )

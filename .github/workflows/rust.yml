@@ -3,34 +3,65 @@ name: Rust
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
+
     - name: Install x86_64-pc-windows-gnu target
       run: rustup target add x86_64-pc-windows-gnu
+
     - name: Install MinGW-w64
       run: sudo apt-get install -y mingw-w64
+
     - name: Build for x86_64-unknown-linux-gnu
       run: cargo build -r --target x86_64-unknown-linux-gnu --verbose
+
     - name: Build for x86_64-pc-windows-gnu
       run: cargo build -r --target x86_64-pc-windows-gnu --verbose
+
     - name: Upload artifact x86_64-pc-windows-gnu
       uses: actions/upload-artifact@v2
       with:
         name: windows-gnu-build
         path: target/x86_64-pc-windows-gnu/release/tetris.exe
+
     - name: Upload artifact x86_64-unknown-linux-gnu
       uses: actions/upload-artifact@v2
       with:
         name: linux-gnu-build
-        path: x86_64-unknown-linux-gnu/release/tetris
+        path: target/x86_64-unknown-linux-gnu/release/tetris
+
+    - name: Get short commit hash
+    run: echo "::set-output name=commit_hash::$(git rev-parse --short HEAD)"
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      with:
+        tag_name: commit-${{ steps.get_commit.outputs.commit_hash }}
+        release_name: Release commit-${{ steps.get_commit.outputs.commit_hash }}
+        draft: false
+        prerelease: false
+        generate_release_notes: false
+
+    - name: Upload Windows GNU Build
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: target/x86_64-pc-windows-gnu/release/tetris.exe
+        asset_name: tetris.exe
+        asset_content_type: application/octet-stream
+
+    - name: Upload Linux Build
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: target/x86_64-unknown-linux-gnu/release/tetris
+        asset_name: tetris
+        asset_content_type: application/octet-stream

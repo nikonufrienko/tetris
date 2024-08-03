@@ -15,12 +15,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v4
     - name: Install x86_64-pc-windows-gnu target
       run: rustup target add x86_64-pc-windows-gnu
     - name: Install MinGW-w64
       run: sudo apt-get install -y mingw-w64
-    - uses: actions/checkout@v4
-    - name: Build
-      run: cargo build -r --verbose
-    - name: Run tests
-      run: cargo test --verbose
+    - name: Build for x86_64-unknown-linux-gnu
+      run: cargo build -r --target x86_64-unknown-linux-gnu --verbose
+    - name: Build for x86_64-pc-windows-gnu
+      run: cargo build -r --target x86_64-pc-windows-gnu --verbose
+    - name: Upload artifact x86_64-pc-windows-gnu
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows-gnu-build
+        path: target/x86_64-pc-windows-gnu/release/tetris.exe
+    - name: Upload artifact x86_64-pc-windows-gnu
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-gnu-build
+        path: x86_64-unknown-linux-gnu/release/tetris

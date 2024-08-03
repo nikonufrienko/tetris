@@ -22,8 +22,8 @@ pub const I_TETR: TetraminoBitmap = TetraminoBitmap {
         ],
         &[
             0b0000,
-            0b1111,
             0b0000,
+            0b1111,
             0b0000
         ],
         &[

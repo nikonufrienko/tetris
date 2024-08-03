@@ -63,13 +63,14 @@ struct TetrisField {
 
 impl TetrisField {
     fn new(stdout: Stdout) -> Self {
+        let mut rng  = rand::thread_rng();
         Self {
             game_field: [[TetrisCell::EMPTY; FIELD_WIDTH as usize]; FIELD_HEIGHT as usize],
             x_pos: (FIELD_WIDTH / 2 - 2) as i8, // TODO: fixme
             y_pos: 0,
             rot: 1,
-            curr_tetr: &bitmaps::I_TETR,
-            rng: rand::thread_rng(),
+            curr_tetr: bitmaps::get_random(&mut rng),
+            rng,
             score: 0,
             stdout,
         }

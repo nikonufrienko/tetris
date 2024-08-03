@@ -121,12 +121,19 @@ impl TetrisField {
         execute!(
             self.stdout,
             cursor::MoveTo(0, (FIELD_HEIGHT + 4u8) as u16),
+            Print("<up arrow> -- rotate")
+        )
+        .unwrap();
+
+        execute!(
+            self.stdout,
+            cursor::MoveTo(0, (FIELD_HEIGHT + 5u8) as u16),
             Print("<down arrow> -- drop")
         )
         .unwrap();
         execute!(
             self.stdout,
-            cursor::MoveTo(0, (FIELD_HEIGHT + 5u8) as u16),
+            cursor::MoveTo(0, (FIELD_HEIGHT + 6u8) as u16),
             Print("ctrl+q -- exit")
         )
         .unwrap();

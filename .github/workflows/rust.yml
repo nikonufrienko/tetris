@@ -58,7 +58,9 @@ jobs:
         asset_path: target/x86_64-pc-windows-gnu/release/tetris.exe
         asset_name: tetris.exe
         asset_content_type: application/octet-stream
-
+      env:
+        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        
     - name: Upload Linux Build
       uses: actions/upload-release-asset@v1
       with:
@@ -66,3 +68,5 @@ jobs:
         asset_path: target/x86_64-unknown-linux-gnu/release/tetris
         asset_name: tetris
         asset_content_type: application/octet-stream
+     env:
+        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}

@@ -58,7 +58,7 @@ struct TetrisField {
     curr_tetr: &'static TetraminoBitmap,
     rng: ThreadRng,
     stdout: Stdout,
-    score: i32
+    score: i32,
 }
 
 impl TetrisField {
@@ -71,7 +71,7 @@ impl TetrisField {
             curr_tetr: &bitmaps::I_TETR,
             rng: rand::thread_rng(),
             score: 0,
-            stdout
+            stdout,
         }
     }
 
@@ -128,8 +128,12 @@ impl TetrisField {
             Print("ctrl+q -- exit")
         )
         .unwrap();
-        execute!(self.stdout,cursor::MoveTo(((FIELD_WIDTH * BRICK_CELL.len() as u8) + 4) as u16, 1),
-        Print("Score:")).unwrap();
+        execute!(
+            self.stdout,
+            cursor::MoveTo(((FIELD_WIDTH * BRICK_CELL.len() as u8) + 4) as u16, 1),
+            Print("Score:")
+        )
+        .unwrap();
     }
 
     fn get_action(&mut self) -> TetraminoAction {
@@ -165,7 +169,9 @@ impl TetrisField {
                 }
                 if modifiers == crossterm::event::KeyModifiers::CONTROL {
                     match code {
-                        crossterm::event::KeyCode::Char('q') => {act.exit = true;}
+                        crossterm::event::KeyCode::Char('q') => {
+                            act.exit = true;
+                        }
                         _ => {}
                     }
                 }
@@ -313,9 +319,13 @@ impl TetrisField {
     }
 
     fn display_scrore(&mut self) {
-        execute!(self.stdout,cursor::MoveTo(((FIELD_WIDTH * BRICK_CELL.len() as u8) + 4) as u16, 2),
-        crossterm::style::SetBackgroundColor(crossterm::style::Color::Reset),
-        Print(format!("{:06}", self.score))).unwrap();
+        execute!(
+            self.stdout,
+            cursor::MoveTo(((FIELD_WIDTH * BRICK_CELL.len() as u8) + 4) as u16, 2),
+            crossterm::style::SetBackgroundColor(crossterm::style::Color::Reset),
+            Print(format!("{:06}", self.score))
+        )
+        .unwrap();
     }
 
     fn step(&mut self) -> bool {
@@ -355,7 +365,7 @@ impl TetrisField {
                 2u8 => 300,
                 3u8 => 700,
                 4u8 => 1500,
-                _ => 0
+                _ => 0,
             };
             self.curr_tetr = bitmaps::get_random(&mut self.rng);
             self.x_pos = (FIELD_WIDTH / 2 - 2) as i8; // TODO: fixme
@@ -370,11 +380,13 @@ impl TetrisField {
     }
 
     fn close(&mut self) {
-        execute!(self.stdout,
+        execute!(
+            self.stdout,
             cursor::MoveTo(0, FIELD_HEIGHT as u16 + 10),
             crossterm::style::SetBackgroundColor(crossterm::style::Color::Reset),
             cursor::Show
-        ).unwrap();
+        )
+        .unwrap();
         crossterm::terminal::disable_raw_mode().unwrap();
     }
 }

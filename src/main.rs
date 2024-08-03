@@ -63,7 +63,7 @@ struct TetrisField {
 
 impl TetrisField {
     fn new(stdout: Stdout) -> Self {
-        let mut rng  = rand::thread_rng();
+        let mut rng = rand::thread_rng();
         Self {
             game_field: [[TetrisCell::EMPTY; FIELD_WIDTH as usize]; FIELD_HEIGHT as usize],
             x_pos: (FIELD_WIDTH / 2 - 2) as i8, // TODO: fixme
@@ -210,7 +210,8 @@ impl TetrisField {
     }
 
     fn game_over(&mut self) {
-        let center_x = ((FIELD_WIDTH * 3 + 2) / 2) as u16 - (GAME_OVER_STR.len() / 2) as u16;
+        let center_x = ((FIELD_WIDTH * BRICK_CELL.len() as u8 + 2) / 2) as u16
+            - (GAME_OVER_STR.len() / 2) as u16;
         let center_y = ((FIELD_HEIGHT + 2) / 2) as u16;
         execute!(
             self.stdout,

@@ -149,30 +149,33 @@ impl TetrisField {
             if let crossterm::event::Event::Key(crossterm::event::KeyEvent {
                 code,
                 modifiers,
+                kind,
                 ..
             }) = evt
             {
-                match code {
-                    crossterm::event::KeyCode::Left => {
-                        act.tetr_move = TetraminoMove::Left;
-                    }
-                    crossterm::event::KeyCode::Right => {
-                        act.tetr_move = TetraminoMove::Right;
-                    }
-                    crossterm::event::KeyCode::Up => {
-                        act.tetr_switch_rot = true;
-                    }
-                    crossterm::event::KeyCode::Down => {
-                        act.tetr_force_down = true;
-                    }
-                    _ => {}
-                }
-                if modifiers == crossterm::event::KeyModifiers::CONTROL {
+                if kind == crossterm::event::KeyEventKind::Press {
                     match code {
-                        crossterm::event::KeyCode::Char('q') => {
-                            act.exit = true;
+                        crossterm::event::KeyCode::Left => {
+                            act.tetr_move = TetraminoMove::Left;
+                        }
+                        crossterm::event::KeyCode::Right => {
+                            act.tetr_move = TetraminoMove::Right;
+                        }
+                        crossterm::event::KeyCode::Up => {
+                            act.tetr_switch_rot = true;
+                        }
+                        crossterm::event::KeyCode::Down => {
+                            act.tetr_force_down = true;
                         }
                         _ => {}
+                    }
+                    if modifiers == crossterm::event::KeyModifiers::CONTROL {
+                        match code {
+                            crossterm::event::KeyCode::Char('q') => {
+                                act.exit = true;
+                            }
+                            _ => {}
+                        }
                     }
                 }
             }
